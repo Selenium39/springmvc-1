@@ -37,7 +37,7 @@
 5.处理模型数据(将数据输出)
       1.ModelAndView:放置的值是放到Request范围当中的
       2.Map以及Model,ModelMap
-      3.@SessionAttributes:放置的值放在HttpSession范围当中
+      3.@SessionAttributes:放置的值放在HttpSession范围当中,注意这个注解是注解在类上面的
       4.@ModelAttribute:
       　　１.作用在方法上:在当前控制器被调用的所有方法之前被调用
           注意:修饰无返回值方法则要手动将数据放到请求范围,修饰有返回值,自动将返回值放到请求范围
@@ -64,5 +64,33 @@
     注意:
     报错@EnableAsync annotation metadata was not injected
     https://blog.csdn.net/pansanday/article/details/50365399  
+  8.使用jsr303(hibernate-validate)校验
+     1.导入hibernate-validate jar包
+     2.在bean上加上注解如@NotEmpty
+     3.在业务方法的形参bean上加上注解@Valid,后面加上BindResult对象
+     4.在前端页面使用<form:errors>显示出来
+  9.springmvc与json
+     1.导入jar包jackson-databind,jackson-core,jackson-annotations
+     2.在前端页面和发送ajax请求
+         $(function() {
+		$("#ajax").click(function() {
+			$.ajax({
+				url : 'http://localhost:8080/springmvc/testAjax',
+				type : 'post',
+				contentType:'application/json;charset=utf-8',
+				data :'[{"name":"wantao","age":10},{"name":"wantao1","age":200}]',
+				success : function(result) {
+                     $.each(result,function(index,value){
+                    	 alert(value.name+""+value.age);
+                     });
+				}
+
+			});
+			return false;
+		});
+	});
+    3.在方法的形参上加上@RequestBody注解
+    4.在方法上加上ResponseBody注解
+   
 ```
 参考视频:https://ke.qq.com/course/249350
